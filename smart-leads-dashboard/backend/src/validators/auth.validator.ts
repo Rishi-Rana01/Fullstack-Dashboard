@@ -1,9 +1,5 @@
 import { body, ValidationChain } from 'express-validator';
 
-// ── Auth Validators ─────────────────────────────────────────────────────────
-// express-validator chains used in auth routes before controllers run.
-// Each validator returns an array of ValidationChain for use with validationResult().
-
 /**
  * Validates the registration request body.
  * - name: 2–100 chars, required

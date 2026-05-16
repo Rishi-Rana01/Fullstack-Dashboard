@@ -1,7 +1,6 @@
 import { body, ValidationChain } from 'express-validator';
 
-// ── Lead Validators ─────────────────────────────────────────────────────────
-// express-validator chains for creating and updating leads.
+
 
 const VALID_STATUSES = ['New', 'Contacted', 'Qualified', 'Lost'] as const;
 const VALID_SOURCES = ['Website', 'Instagram', 'Referral'] as const;
