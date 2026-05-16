@@ -5,7 +5,7 @@ import { registerValidator, loginValidator } from '../validators/auth.validator'
 
 const router = Router();
 
-// ── Auth Routes ────────────────────────────────────────────────────────────
+
 // POST /api/auth/register  — Create a new account
 router.post('/register', registerValidator, register);
 
