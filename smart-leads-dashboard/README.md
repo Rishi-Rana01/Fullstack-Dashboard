@@ -131,7 +131,7 @@ docker-compose down -v
 |---------|-----|
 | Frontend | http://localhost |
 | Backend API | http://localhost:5000/api |
-| MongoDB | mongodb://localhost:27017 |
+| MongoDB | mongodb+srv://<user-name>:<password>@cluster0.khtq1ye.mongodb.net/smart-leads |
 
 ---
 
@@ -143,7 +143,7 @@ docker-compose down -v
 |----------|-------------|---------|
 | `PORT` | Server port | `5000` |
 | `NODE_ENV` | Environment (`development`/`production`) | `development` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/smart-leads` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://<user-name>:<password>@<your-cluster>.mongodb.net/<your-db>` |
 | `JWT_SECRET` | Secret key for JWT signing — **use a long random string in prod** | — |
 | `JWT_EXPIRES_IN` | Token expiry duration | `7d` |
 | `FRONTEND_URL` | CORS allowed origin | `http://localhost:5173` |
@@ -371,7 +371,7 @@ smart-leads-dashboard/
 
 ---
 
-## Git Commit History (Example)
+## Git Commit History 
 
 ```
 feat: add JWT authentication with bcrypt password hashing
