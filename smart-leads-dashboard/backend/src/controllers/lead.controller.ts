@@ -28,31 +28,30 @@ export const getLeads = async (
       limit = 10,
     } = req.query as unknown as LeadQueryParams;
 
-    // Sanitize numeric pagination values
     const pageNum = Math.max(1, Number(page));
-    const limitNum = Math.min(Math.max(1, Number(limit)), 50); // Cap at 50 per page
+    const limitNum = Math.min(Math.max(1, Number(limit)), 50); 
     const skip = (pageNum - 1) * limitNum;
 
-    // Build query dynamically — only add filters that are actually provided
+  
     const query: FilterQuery<ILeadDocument> = {};
 
     if (status) query.status = status;
     if (source) query.source = source;
 
     if (search && search.trim()) {
-      // Case-insensitive regex search across both name and email fields
+
       const searchRegex = { $regex: search.trim(), $options: 'i' };
       query.$or = [{ name: searchRegex }, { email: searchRegex }];
     }
 
-    // Run count and data queries in parallel for performance
+    
     const sortOrder = sort === 'oldest' ? 1 : -1;
     const [leads, total] = await Promise.all([
       Lead.find(query)
         .sort({ createdAt: sortOrder })
         .skip(skip)
         .limit(limitNum)
-        .lean(), // Use .lean() for performance — returns plain objects
+        .lean(), 
       Lead.countDocuments(query),
     ]);
 
@@ -97,7 +96,7 @@ export const createLead = async (
       email,
       status,
       source,
-      createdBy: req.user!.id, // Set from authenticated user
+      createdBy: req.user!.id, 
     });
 
     sendResponse(res, 201, 'Lead created successfully.', lead);
@@ -165,7 +164,7 @@ export const updateLead = async (
     const updatedLead = await Lead.findByIdAndUpdate(
       req.params.id,
       { $set: updateData },
-      { new: true, runValidators: true } // Return updated doc, run schema validators
+      { new: true, runValidators: true } 
     ).lean();
 
     sendResponse(res, 200, 'Lead updated successfully.', updatedLead);
@@ -211,7 +210,7 @@ export const exportLeadsCsv = async (
   try {
     const { status, source, search } = req.query as unknown as LeadQueryParams;
 
-    // Build the same query as getLeads but without pagination
+    
     const query: FilterQuery<ILeadDocument> = {};
 
     if (status) query.status = status;
@@ -226,7 +225,6 @@ export const exportLeadsCsv = async (
 
     const csvData = generateLeadsCsv(leads);
 
-    // Set appropriate headers so the browser treats this as a file download
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader(
       'Content-Disposition',

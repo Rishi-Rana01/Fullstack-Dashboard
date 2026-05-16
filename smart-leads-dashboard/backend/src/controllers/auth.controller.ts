@@ -17,7 +17,7 @@ export const register = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // Check express-validator results first
+    
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       sendError(res, 400, 'Validation failed.', errors.array());
@@ -26,14 +26,13 @@ export const register = async (
 
     const { name, email, password, role } = req.body as RegisterDTO;
 
-    // Check for existing account before creating — prevents duplicate key error leaking
+    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       sendError(res, 409, 'An account with that email address already exists.');
       return;
     }
 
-    // Create user — password is hashed automatically in the pre-save hook
     const user = await User.create({ name, email, password, role });
 
     const token = signToken({
@@ -53,7 +52,7 @@ export const register = async (
       },
     });
   } catch (error) {
-    next(error); // Delegate to centralized error handler
+    next(error); 
   }
 };
 
@@ -75,10 +74,8 @@ export const login = async (
 
     const { email, password } = req.body as LoginDTO;
 
-    // Use .select('+password') only when explicitly needed — model hides it by default
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      // Use generic message to avoid user enumeration attacks
       sendError(res, 401, 'Invalid email or password.');
       return;
     }
@@ -120,7 +117,6 @@ export const getMe = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    // req.user is set by the authenticate middleware — guaranteed to exist here
     const user = await User.findById(req.user!.id);
     if (!user) {
       sendError(res, 404, 'User not found.');
