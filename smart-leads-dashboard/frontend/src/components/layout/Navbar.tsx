@@ -7,18 +7,14 @@ interface NavbarProps {
   pageTitle?: string;
 }
 
-/**
- * Navbar — sticky top bar with hamburger menu (mobile), page title,
- * dark mode toggle, and notification bell.
- */
+
 export const Navbar: React.FC<NavbarProps> = ({
   onMenuClick,
   pageTitle = 'Dashboard',
 }) => {
   const { user } = useAuth();
 
-  // ── Dark Mode ────────────────────────────────────────────────────────────
-  // Detect system preference on first load; persist user preference to localStorage
+  
   const [isDark, setIsDark] = useState<boolean>(() => {
     const stored = localStorage.getItem('theme');
     if (stored) return stored === 'dark';
@@ -37,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="glass sticky top-0 z-20 h-16 flex items-center px-4 gap-3">
-      {/* Hamburger — only visible on mobile */}
+      {/* Hamburger */}
       <button
         onClick={onMenuClick}
         className="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
