@@ -14,7 +14,6 @@ export const authenticate = (
   try {
     const authHeader = req.headers.authorization;
 
-    // Require the Authorization header with Bearer scheme
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       sendError(res, 401, 'Access denied. No authentication token provided.');
       return;
@@ -27,10 +26,9 @@ export const authenticate = (
       return;
     }
 
-    // verifyToken throws if the token is invalid or expired
+    // verifyToken
     const decoded: JwtPayload = verifyToken(token);
 
-    // Attach the authenticated user info to the request for downstream use
     req.user = {
       id: decoded.id,
       role: decoded.role,
@@ -41,7 +39,6 @@ export const authenticate = (
   } catch (error) {
     const err = error as Error;
 
-    // Differentiate expired tokens from invalid ones for better UX messaging
     if (err.name === 'TokenExpiredError') {
       sendError(res, 401, 'Session expired. Please log in again.');
     } else if (err.name === 'JsonWebTokenError') {
