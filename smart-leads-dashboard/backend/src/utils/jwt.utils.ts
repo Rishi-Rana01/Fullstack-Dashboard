@@ -1,15 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { UserRole } from '../types/user.types';
 
-// ── JWT Payload Shape ──────────────────────────────────────────────────────
-// This is what gets encoded into the token and decoded on verification.
 export interface JwtPayload {
   id: string;
   role: UserRole;
   email: string;
 }
 
-// Read secrets from environment — never hardcode
+
 const getJwtSecret = (): string => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {

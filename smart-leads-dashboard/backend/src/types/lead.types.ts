@@ -1,6 +1,3 @@
-// ── Backend Lead Types ─────────────────────────────────────────────────────
-// All lead-related TypeScript types used across backend controllers, models,
-// and validators. Keep in sync with frontend/src/types/lead.types.ts.
 
 export type LeadStatus = 'New' | 'Contacted' | 'Qualified' | 'Lost';
 export type LeadSource = 'Website' | 'Instagram' | 'Referral';
@@ -14,7 +11,7 @@ export interface ILead {
   source: LeadSource;
   createdAt: Date;
   updatedAt: Date;
-  createdBy: string; // User ID reference
+  createdBy: string; 
 }
 
 export interface CreateLeadDTO {
@@ -24,7 +21,6 @@ export interface CreateLeadDTO {
   source: LeadSource;
 }
 
-// Allows partial updates — all fields are optional
 export interface UpdateLeadDTO extends Partial<CreateLeadDTO> {}
 
 export interface LeadQueryParams {

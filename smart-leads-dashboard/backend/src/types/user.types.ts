@@ -25,7 +25,7 @@ export interface LoginDTO {
   password: string;
 }
 
-// AuthResponse excludes the password field from user data
+
 export interface AuthResponse {
   token: string;
   user: Omit<IUser, 'password'>;
