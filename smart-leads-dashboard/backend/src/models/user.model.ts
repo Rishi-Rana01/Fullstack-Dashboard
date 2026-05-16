@@ -2,20 +2,18 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { UserRole } from '../types/user.types';
 
-// ── User Document Interface ────────────────────────────────────────────────
-// Extends Mongoose Document so we get all Mongoose methods + our custom ones.
+
 export interface IUserDocument extends Document {
   name: string;
   email: string;
   password: string;
   role: UserRole;
   createdAt: Date;
-  // Custom instance method — compare raw candidate against stored hash
+
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-// ── User Model Interface ───────────────────────────────────────────────────
-// Typed Model to allow static methods if added in the future
+
 type IUserModel = Model<IUserDocument>;
 
 const userSchema = new Schema<IUserDocument, IUserModel>(
@@ -30,7 +28,7 @@ const userSchema = new Schema<IUserDocument, IUserModel>(
     email: {
       type: String,
       required: [true, 'Email is required'],
-      unique: true,        // Enforced at the DB index level
+      unique: true,       
       lowercase: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address'],
@@ -47,13 +45,11 @@ const userSchema = new Schema<IUserDocument, IUserModel>(
     },
   },
   {
-    timestamps: true, // Automatically manages createdAt
+    timestamps: true, 
   }
 );
 
-// ── Pre-save Hook: Hash password before persisting ────────────────────────
-// Only re-hash if the password field has been modified — avoids double-hashing
-// on subsequent saves (e.g., updating email).
+
 userSchema.pre<IUserDocument>('save', async function (next) {
   if (!this.isModified('password')) return next();
 
@@ -62,18 +58,14 @@ userSchema.pre<IUserDocument>('save', async function (next) {
   next();
 });
 
-// ── Instance Method: Compare password ─────────────────────────────────────
-// Uses bcrypt.compare which is timing-attack safe.
+
 userSchema.methods.comparePassword = async function (
   candidatePassword: string
 ): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password as string);
 };
 
-// Exclude password from JSON serialization by default.
-// We use `any` here strictly because Mongoose's transform callback types
-// don't allow deleting typed fields on the ret object in strict mode.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 userSchema.set('toJSON', {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform: (_doc: any, ret: any) => {

@@ -1,13 +1,11 @@
 import mongoose, { Document, Model, Schema, Types } from 'mongoose';
 import { LeadSource, LeadStatus } from '../types/lead.types';
 
-// ── Lead Document Interface ────────────────────────────────────────────────
 export interface ILeadDocument extends Document {
   name: string;
   email: string;
   status: LeadStatus;
   source: LeadSource;
-  // ObjectId reference to the User who created this lead
   createdBy: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -49,17 +47,15 @@ const leadSchema = new Schema<ILeadDocument, ILeadModel>(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt automatically
+    timestamps: true,
   }
 );
 
-// ── Indexes ────────────────────────────────────────────────────────────────
-// Compound and individual indexes for faster filtering, searching, and sorting.
-// Text index on name + email enables case-insensitive search via $regex.
+
 leadSchema.index({ status: 1 });
 leadSchema.index({ source: 1 });
 leadSchema.index({ createdAt: -1 });
 leadSchema.index({ name: 'text', email: 'text' }); // For search performance
-leadSchema.index({ createdBy: 1 }); // For sales role "own leads" queries
+leadSchema.index({ createdBy: 1 }); 
 
 export const Lead = mongoose.model<ILeadDocument, ILeadModel>('Lead', leadSchema);
