@@ -1,8 +1,6 @@
 import { Response } from 'express';
 
-// ── Generic API Response Shape ─────────────────────────────────────────────
-// Using a generic type T allows full type-safety for the data payload
-// without resorting to `any`.
+
 
 interface SuccessResponse<T> {
   success: true;
@@ -13,7 +11,7 @@ interface SuccessResponse<T> {
 interface ErrorResponse {
   success: false;
   message: string;
-  errors?: unknown[]; // Validation error details — unknown is safer than any
+  errors?: unknown[];
 }
 
 /**
