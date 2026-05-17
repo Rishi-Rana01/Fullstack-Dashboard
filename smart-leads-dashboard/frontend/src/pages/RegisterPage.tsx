@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
-// ── Zod Schema ────────────────────────────────────────────────────────────────
+//  Zod Schema 
 const registerSchema = z.object({
   name: z
     .string()

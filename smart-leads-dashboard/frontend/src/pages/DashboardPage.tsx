@@ -25,7 +25,7 @@ import { Button } from '../components/ui/Button';
 import { Navbar } from '../components/layout/Navbar';
 import { Sidebar } from '../components/layout/Sidebar';
 
-// ── Initial Filter State ─────────────────────────────────────────────────────
+
 const INITIAL_FILTERS: LeadFilters = {
   status: '',
   source: '',
@@ -34,7 +34,7 @@ const INITIAL_FILTERS: LeadFilters = {
   page: 1,
 };
 
-// ── Stat Card ────────────────────────────────────────────────────────────────
+
 interface StatCardProps {
   label: string;
   value: number;
@@ -71,7 +71,7 @@ const StatCard: React.FC<StatCardProps> = ({
   </div>
 );
 
-// ── Modal State Shape ─────────────────────────────────────────────────────────
+
 type ModalType = 'create' | 'edit' | 'view' | 'delete' | null;
 
 interface ModalState {
@@ -93,13 +93,13 @@ const DashboardPage: React.FC = () => {
   const [modal, setModal] = useState<ModalState>({ type: null, lead: null });
   const [isExporting, setIsExporting] = useState(false);
 
-  // ── Data fetching ────────────────────────────────────────────────────────
+ 
   const { leads, pagination, isLoading } = useLeads(filters);
 
-  // Fetch total counts for stat cards — always unfiltered
+
   const { leads: allLeads } = useLeads({ ...INITIAL_FILTERS, limit: 1000 } as LeadFilters);
 
-  // ── Stat calculations ────────────────────────────────────────────────────
+ 
   const stats = React.useMemo(() => {
     const counts = { New: 0, Contacted: 0, Qualified: 0, Lost: 0 };
     allLeads.forEach((lead) => {
@@ -108,7 +108,7 @@ const DashboardPage: React.FC = () => {
     return counts;
   }, [allLeads]);
 
-  // ── Delete mutation ──────────────────────────────────────────────────────
+ 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteLeadApi(id),
     onSuccess: () => {
@@ -121,7 +121,7 @@ const DashboardPage: React.FC = () => {
     },
   });
 
-  // ── Modal helpers ────────────────────────────────────────────────────────
+  
   const openModal = useCallback((type: ModalType, lead: Lead | null = null) => {
     setModal({ type, lead });
   }, []);
@@ -130,7 +130,7 @@ const DashboardPage: React.FC = () => {
     setModal({ type: null, lead: null });
   }, []);
 
-  // ── CSV Export ───────────────────────────────────────────────────────────
+  // ── CSV Export 
   const handleExportCsv = async () => {
     try {
       setIsExporting(true);
@@ -149,7 +149,7 @@ const DashboardPage: React.FC = () => {
     }
   };
 
-  // ── Filters handler ──────────────────────────────────────────────────────
+  // ── Filters handler 
   const handleFiltersChange = useCallback((newFilters: LeadFilters) => {
     setFilters(newFilters);
   }, []);
@@ -168,7 +168,7 @@ const DashboardPage: React.FC = () => {
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Main content area — offset by sidebar width on desktop */}
+      
       <div className="flex-1 flex flex-col min-w-0 lg:ml-64 transition-all duration-300">
         {/* Navbar */}
         <Navbar
@@ -179,7 +179,7 @@ const DashboardPage: React.FC = () => {
         {/* Page content */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
 
-          {/* ── Stat Cards ─────────────────────────────────────────────── */}
+          
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard
               label="Total Leads"
@@ -215,10 +215,10 @@ const DashboardPage: React.FC = () => {
             />
           </div>
 
-          {/* ── Filter Bar ─────────────────────────────────────────────── */}
+         
           <LeadFiltersBar filters={filters} onChange={handleFiltersChange} />
 
-          {/* ── Table Header Row (action buttons) ─────────────────────── */}
+         
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <div>
               <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">
@@ -263,7 +263,7 @@ const DashboardPage: React.FC = () => {
             </div>
           </div>
 
-          {/* ── Leads Table ────────────────────────────────────────────── */}
+          
           <LeadTable
             leads={leads}
             isLoading={isLoading}
@@ -273,16 +273,14 @@ const DashboardPage: React.FC = () => {
             onDelete={(lead) => openModal('delete', lead)}
           />
 
-          {/* ── Pagination ─────────────────────────────────────────────── */}
+          {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <Pagination meta={pagination} onPageChange={handlePageChange} />
           )}
         </main>
       </div>
 
-      {/* ── Modals ──────────────────────────────────────────────────────── */}
-
-      {/* Create Lead */}
+      
       <Modal
         isOpen={modal.type === 'create'}
         onClose={closeModal}
