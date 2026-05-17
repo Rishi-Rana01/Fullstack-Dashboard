@@ -1,4 +1,3 @@
-// ── Frontend Auth Types ────────────────────────────────────────────────────
 
 export type UserRole = 'admin' | 'sales';
 

@@ -1,6 +1,3 @@
-// ── Frontend Lead Types ────────────────────────────────────────────────────
-// Mirror of backend/src/types/lead.types.ts — kept in sync manually.
-// Dates are strings here since JSON serialization converts Dates to ISO strings.
 
 export type LeadStatus = 'New' | 'Contacted' | 'Qualified' | 'Lost';
 export type LeadSource = 'Website' | 'Instagram' | 'Referral';

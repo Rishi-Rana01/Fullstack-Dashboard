@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 
-// ── Zod Schema ────────────────────────────────────────────────────────────────
+// Zod Schema 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
   password: z.string().min(1, 'Password is required.'),
@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  // Redirect if already logged in
+  
   if (!authLoading && isAuthenticated) {
     return <Navigate to="/dashboard" replace />;
   }

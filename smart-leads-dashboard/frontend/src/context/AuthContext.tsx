@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true); // True on mount while we validate
 
-  // ── Persist helpers ─────────────────────────────────────────────────────
+  
   const persistAuth = useCallback((newToken: string, newUser: AuthUser) => {
     localStorage.setItem('token', newToken);
     localStorage.setItem('user', JSON.stringify(newUser));
@@ -46,9 +46,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
   }, []);
 
-  // ── Restore session on mount ────────────────────────────────────────────
-  // Validate the stored token against the /me endpoint on every page load
-  // to handle cases where the token has expired or been revoked.
+  // Restore session on mount
+  
   useEffect(() => {
     const initializeAuth = async () => {
       const storedToken = localStorage.getItem('token');
@@ -59,12 +58,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       try {
-        // Verify token is still valid by hitting the /me endpoint
         const currentUser = await getMeApi();
         setToken(storedToken);
         setUser(currentUser);
       } catch {
-        // Token is invalid or expired — clear stale auth state
         clearAuth();
       } finally {
         setIsLoading(false);
@@ -74,7 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     void initializeAuth();
   }, [clearAuth]);
 
-  // ── Login ───────────────────────────────────────────────────────────────
+  // Login
   const login = useCallback(
     async (data: LoginFormData): Promise<void> => {
       const result = await loginApi(data);
@@ -85,7 +82,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [persistAuth, navigate]
   );
 
-  // ── Register ────────────────────────────────────────────────────────────
+  // Register
   const register = useCallback(
     async (data: RegisterFormData): Promise<void> => {
       const result = await registerApi(data);
@@ -96,7 +93,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [persistAuth, navigate]
   );
 
-  // ── Logout ──────────────────────────────────────────────────────────────
+  // Logout
   const logout = useCallback((): void => {
     clearAuth();
     toast.success('Logged out successfully.');
