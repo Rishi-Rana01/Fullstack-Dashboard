@@ -8,30 +8,19 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 
-// ── TanStack Query Client ─────────────────────────────────────────────────────
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // Retry failed queries once before showing an error
       retry: 1,
-      // Consider data stale after 30 seconds
       staleTime: 30_000,
     },
     mutations: {
-      // Do not retry mutations by default — they may have side effects
       retry: false,
     },
   },
 });
 
-/**
- * App — root component that wires up:
- * - React Router (BrowserRouter)
- * - TanStack Query (QueryClientProvider)
- * - Auth context (AuthProvider)
- * - Toast notifications (Toaster)
- * - Route definitions with ProtectedRoute guards
- */
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
