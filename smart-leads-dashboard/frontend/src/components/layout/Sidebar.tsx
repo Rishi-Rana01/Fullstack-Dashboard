@@ -59,12 +59,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           'fixed top-0 left-0 z-40 h-full flex flex-col',
           'bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800',
           'transition-all duration-300 ease-in-out',
-          // Mobile: slide in/out
+          
           isOpen ? 'translate-x-0' : '-translate-x-full',
-          // Desktop: always visible, collapsible width
+          
           'lg:translate-x-0',
           isCollapsed ? 'lg:w-16' : 'lg:w-64',
-          'w-64', // Mobile always full width
+          'w-64',
         ].join(' ')}
       >
         {/* Logo area */}

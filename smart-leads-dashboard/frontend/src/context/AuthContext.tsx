@@ -16,7 +16,7 @@ import {
   RegisterFormData,
 } from '../types/auth.types';
 
-// ── Auth Context ────────────────────────────────────────────────────────────
+// ── Auth Context 
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

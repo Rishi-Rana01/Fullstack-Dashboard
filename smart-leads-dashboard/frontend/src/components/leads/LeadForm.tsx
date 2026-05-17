@@ -9,7 +9,7 @@ import { Lead, LeadFormData } from '../../types/lead.types';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 
-// ── Zod Validation Schema ───────────────────────────────────────────────────
+// ── Zod Validation Schema
 const leadSchema = z.object({
   name: z
     .string()
@@ -26,9 +26,9 @@ const leadSchema = z.object({
 
 type LeadFormSchema = z.infer<typeof leadSchema>;
 
-// ── Props ───────────────────────────────────────────────────────────────────
+
 interface LeadFormProps {
-  /** If provided, the form operates in edit mode with pre-filled values */
+  
   lead?: Lead;
   onSuccess: () => void;
   onClose: () => void;
@@ -68,11 +68,11 @@ export const LeadForm: React.FC<LeadFormProps> = ({
     },
   });
 
-  // ── Mutations ───────────────────────────────────────────────────────────
+
   const createMutation = useMutation({
     mutationFn: (data: LeadFormData) => createLeadApi(data),
     onSuccess: () => {
-      // Invalidate the leads query so the table refreshes with the new lead
+    
       void queryClient.invalidateQueries({ queryKey: ['leads'] });
       toast.success('Lead created successfully!');
       onSuccess();

@@ -39,11 +39,10 @@ export const LeadFiltersBar: React.FC<LeadFiltersProps> = ({
   filters,
   onChange,
 }) => {
-  // Track the raw (non-debounced) search value for controlled input display
   const [rawSearch, setRawSearch] = React.useState(filters.search);
   const debouncedSearch = useDebounce(rawSearch, 500);
 
-  // Sync debounced search → parent filters (triggers API refetch)
+  
   React.useEffect(() => {
     if (debouncedSearch !== filters.search) {
       onChange({ ...filters, search: debouncedSearch, page: 1 });

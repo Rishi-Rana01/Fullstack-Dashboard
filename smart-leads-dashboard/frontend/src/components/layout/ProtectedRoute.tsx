@@ -5,7 +5,7 @@ import { Spinner } from '../ui/Spinner';
 import { UserRole } from '../../types/auth.types';
 
 interface ProtectedRouteProps {
-  /** Optional: restrict to specific roles. If omitted, any authenticated user is allowed. */
+ 
   allowedRoles?: UserRole[];
 }
 
@@ -22,7 +22,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const { isAuthenticated, isLoading, user } = useAuth();
 
-  // Show spinner while the auth context validates the stored token
+  
   if (isLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950">
@@ -31,16 +31,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Redirect unauthenticated users to login
+ 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // Redirect to dashboard if the user doesn't have the required role
   if (allowedRoles && user && !allowedRoles.includes(user.role)) {
     return <Navigate to="/dashboard" replace />;
   }
 
-  // User is authenticated and authorized — render the child route
+
   return <Outlet />;
 };
