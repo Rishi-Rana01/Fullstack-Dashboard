@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Install dependencies first (leverages Docker layer caching)
 COPY package*.json ./
-RUN npm ci --only=production=false
+RUN npm ci
 
 # Copy source and build TypeScript
 COPY . .
