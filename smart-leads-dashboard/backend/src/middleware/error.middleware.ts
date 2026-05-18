@@ -24,9 +24,9 @@ export const errorHandler = (
   _next: NextFunction
 ): void => {
 
-  if (process.env.NODE_ENV === 'development') {
-    console.error('❌ Error:', error);
-  }
+  
+  console.error('❌ Error:', error instanceof Error ? error.stack : error);
+
   if (error instanceof MongooseError.ValidationError) {
     const errors = Object.values(error.errors).map((e) => ({
       field: e.path,
