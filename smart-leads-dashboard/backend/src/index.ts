@@ -13,7 +13,7 @@ dotenv.config();
 
 const app: Application = express();
 const PORT = process.env.PORT ?? 5000;
-const FRONTEND_URL = (process.env.FRONTEND_URL ?? 'http://localhost:5173').replace(/\/+$/, '');
+const FRONTEND_URL = (process.env.FRONTEND_URL ?? 'http://localhost:5173').trim().replace(/\/+$/, '');
 
 app.use(helmet());
 
@@ -57,6 +57,7 @@ const startServer = async (): Promise<void> => {
     console.log(
       `🚀 Server running in ${process.env.NODE_ENV ?? 'development'} mode on port ${PORT}`
     );
+    console.log(`🔒 CORS origin: ${JSON.stringify(FRONTEND_URL)}`);
   });
 };
 
