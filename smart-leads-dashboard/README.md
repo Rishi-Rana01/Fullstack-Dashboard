@@ -13,10 +13,10 @@ A production-ready CRM-style **Smart Leads Dashboard** built with the MERN stack
 | **Forms** | React Hook Form + Zod |
 | **HTTP** | Axios with interceptors |
 | **Backend** | Node.js, Express.js, TypeScript (strict) |
-| **Database** | MongoDB + Mongoose |
+| **Database** | MongoDB Atlas + Mongoose |
 | **Auth** | JWT (jsonwebtoken) + bcryptjs |
 | **Validation** | express-validator |
-| **DevOps** | Docker + Docker Compose |
+| **DevOps** | Docker + Docker Compose, Render (Backend), Vercel (Frontend) |
 
 ---
 
@@ -58,7 +58,7 @@ A production-ready CRM-style **Smart Leads Dashboard** built with the MERN stack
 ### 1. Clone & navigate
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Rishi-Rana01/Fullstack-Dashboard.git
 cd smart-leads-dashboard
 ```
 
@@ -94,44 +94,26 @@ npm run dev
 
 Frontend runs on: `http://localhost:5173`
 
-### 4. Build for production
-
-```bash
-# Backend
-cd backend && npm run build && npm start
-
-# Frontend
-cd frontend && npm run build
-# Serve the dist/ folder with any static server
-```
-
 ---
 
-## Docker Setup
+## Deployment (Production)
 
-```bash
-# From the project root
-cp backend/.env.example backend/.env
-# Edit backend/.env with your settings
+The application is deployed using modern cloud platforms:
 
-# Build and start all services (MongoDB + Backend + Frontend)
-docker-compose up --build
+- **Frontend**: [Vercel](https://fullstack-dashboard-six.vercel.app/)
+- **Backend API**: [Render](https://smart-leads-backend-qzbo.onrender.com/health)
+- **Database**: MongoDB Atlas
 
-# Run in background
-docker-compose up -d --build
+### Deploying the Backend (Render)
+The backend is configured to deploy automatically to Render using the `render.yaml` configuration.
+1. Connect your GitHub repository to Render.
+2. The `render.yaml` handles the Node environment, build command (`npm ci --include=dev && npm run build`), and start command.
+3. Ensure you set the `MONGODB_URI`, `JWT_SECRET`, and `FRONTEND_URL` environment variables in the Render dashboard.
 
-# Stop all services
-docker-compose down
-
-# Stop and remove volumes (clears MongoDB data)
-docker-compose down -v
-```
-
-| Service | URL |
-|---------|-----|
-| Frontend | http://localhost |
-| Backend API | http://localhost:5000/api |
-| MongoDB | mongodb+srv://<user-name>:<password>@cluster0.khtq1ye.mongodb.net/smart-leads |
+### Deploying the Frontend (Vercel)
+1. Import the `frontend/` directory into a new Vercel project.
+2. The framework will be auto-detected as Vite.
+3. Set the `VITE_API_URL` environment variable to your backend URL (e.g., `https://smart-leads-backend-qzbo.onrender.com/api`). Note: Make sure it ends in `/api`.
 
 ---
 
@@ -146,7 +128,7 @@ docker-compose down -v
 | `MONGODB_URI` | MongoDB connection string | `mongodb+srv://<user-name>:<password>@<your-cluster>.mongodb.net/<your-db>` |
 | `JWT_SECRET` | Secret key for JWT signing — **use a long random string in prod** | — |
 | `JWT_EXPIRES_IN` | Token expiry duration | `7d` |
-| `FRONTEND_URL` | CORS allowed origin | `http://localhost:5173` |
+| `FRONTEND_URL` | CORS allowed origin (No trailing slashes) | `http://localhost:5173` |
 
 ### Frontend (`frontend/.env`)
 
@@ -159,7 +141,8 @@ docker-compose down -v
 ## API Documentation
 
 ### Base URL
-`http://localhost:5000/api`
+`https://smart-leads-backend-qzbo.onrender.com/api` (Production)
+`http://localhost:5000/api` (Local)
 
 ### Response Format
 
@@ -313,6 +296,75 @@ Export leads matching current filters as a CSV file download.
 
 ---
 
+## Error Handling
+
+The API uses a centralized error handling middleware (`src/middleware/error.middleware.ts`) to catch and format errors consistently.
+
+### Common Error Responses
+
+**400 Bad Request (Validation Error):**
+```json
+{
+  "success": false,
+  "message": "Validation failed.",
+  "errors": [
+    { "field": "email", "message": "Please enter a valid email address" }
+  ]
+}
+```
+
+**401 Unauthorized (Invalid/Expired Token):**
+```json
+{
+  "success": false,
+  "message": "Session expired. Please log in again."
+}
+```
+
+**404 Not Found:**
+```json
+{
+  "success": false,
+  "message": "Lead not found."
+}
+```
+
+**409 Conflict (Duplicate Key):**
+```json
+{
+  "success": false,
+  "message": "A record with that email already exists."
+}
+```
+
+**500 Internal Server Error:**
+```json
+{
+  "success": false,
+  "message": "An unexpected internal server error occurred."
+}
+```
+
+---
+
+## AI-Assisted Troubleshooting
+
+During the deployment to Render, a persistent `ERR_INVALID_CHAR` issue occurred due to an invalid character in the CORS `Access-Control-Allow-Origin` header.
+
+**The Problem:**
+The backend was crashing with `TypeError [ERR_INVALID_CHAR]: Invalid character in header content ["Access-Control-Allow-Origin"]` when making requests from the frontend.
+
+**The Debugging Process (with AI Assistance):**
+1. **Identified the cause:** AI correctly identified that a trailing slash (`/`) or invisible whitespace/newline characters in the `FRONTEND_URL` environment variable were violating HTTP header specifications.
+2. **First Attempt:** Added `.replace(/\/+$/, '')` to strip trailing slashes, but the error persisted because the environment variable contained an invisible newline character (`\n`) from a copy-paste error in the Render dashboard.
+3. **The Fix:** AI instructed to add `.trim()` alongside `.replace()` and added diagnostic logging using `JSON.stringify(FRONTEND_URL)` to reveal hidden characters in the Render logs.
+   ```typescript
+   const FRONTEND_URL = (process.env.FRONTEND_URL ?? 'http://localhost:5173').trim().replace(/\/+$/, '');
+   ```
+4. **Resolution:** The backend was successfully able to parse the origin, allowing cross-origin requests from the Vercel frontend and resolving the issue completely.
+
+---
+
 ## Folder Structure
 
 ```
@@ -351,39 +403,6 @@ smart-leads-dashboard/
 | Update own leads | ✅ | ✅ |
 | Delete leads | ✅ | ❌ |
 | Export CSV | ✅ | ❌ |
-
----
-
-## Screenshots
-
-> _Screenshots coming soon. Run the app locally and register an admin account to explore all features._
-
----
-
-## Deployment
-
-> Add your deployment link here after deploying to a cloud provider.
-
-### Recommended Platforms
-- **Backend + MongoDB**: Railway, Render, or AWS ECS
-- **Frontend**: Vercel, Netlify, or CloudFront + S3
-- **All-in-one**: Docker Compose on any VPS (DigitalOcean, Hetzner, etc.)
-
----
-
-## Git Commit History 
-
-```
-feat: add JWT authentication with bcrypt password hashing
-feat: implement lead CRUD with pagination and filtering
-feat: add debounced search and multi-filter support
-feat: implement RBAC for admin and sales roles
-feat: add CSV export functionality
-feat: configure Docker and docker-compose
-fix: handle expired JWT token redirect
-refactor: extract lead filters into custom hook
-style: improve responsive layout for mobile
-```
 
 ---
 
