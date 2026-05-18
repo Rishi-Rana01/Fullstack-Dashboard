@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # ── MongoDB ──────────────────────────────────────────────────────────────
+  # MongoDB 
   mongodb:
     image: mongo:6
     container_name: smart-leads-mongodb
@@ -22,7 +22,7 @@ services:
       retries: 5
       start_period: 10s
 
-  # ── Backend API ──────────────────────────────────────────────────────────
+  # Backend API 
   backend:
     build:
       context: ./backend
@@ -49,7 +49,7 @@ services:
       retries: 3
       start_period: 20s
 
-  # ── Frontend ──────────────────────────────────────────────────────────────
+  #  Frontend
   frontend:
     build:
       context: ./frontend
@@ -65,7 +65,7 @@ services:
       backend:
         condition: service_healthy
 
-# ── Volumes ───────────────────────────────────────────────────────────────
+# Volumes 
 volumes:
   mongo_data:
     driver: local
