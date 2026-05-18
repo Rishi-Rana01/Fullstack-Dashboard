@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: smart-leads-backend
+    runtime: node
+    rootDir: smart-leads-dashboard/backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: FRONTEND_URL
+        sync: false
+    healthCheckPath: /health
