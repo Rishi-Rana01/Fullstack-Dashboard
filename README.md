@@ -1,399 +1,129 @@
 # Smart Leads Dashboard
 
-A production-ready CRM-style **Smart Leads Dashboard** built with the MERN stack and TypeScript. Features JWT authentication, role-based access control (RBAC), real-time filtering, pagination, and CSV export — all wrapped in a beautiful, responsive UI with dark mode support.
+[![MERN Stack](https://img.shields.io/badge/Stack-MERN-61dafb?style=flat-square)](https://mern.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![React 18](https://img.shields.io/badge/React-18+-blue?style=flat-square&logo=react)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-7+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ed?style=flat-square&logo=docker)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+
+A **production-ready CRM dashboard** built with the **MERN stack** (MongoDB, Express, React, Node.js) and **TypeScript**. Features JWT authentication, role-based access control (RBAC), real-time filtering, pagination, CSV export, and comprehensive lead management.
+
+🌐 **[Frontend Demo](https://fullstack-dashboard-six.vercel.app/)** | 🔗 **[Backend API](https://smart-leads-backend-qzbo.onrender.com/health)** | 📂 **[GitHub](https://github.com/Rishi-Rana01/Fullstack-Dashboard)** | 👤 **[Profile](https://github.com/Rishi-Rana01)**
 
 ---
 
-## Tech Stack
+## ✨ Key Features
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | React 18, Vite, TypeScript (strict), TailwindCSS |
-| **State** | TanStack Query v5, React Context |
-| **Forms** | React Hook Form + Zod |
-| **HTTP** | Axios with interceptors |
-| **Backend** | Node.js, Express.js, TypeScript (strict) |
-| **Database** | MongoDB Atlas + Mongoose |
-| **Auth** | JWT (jsonwebtoken) + bcryptjs |
-| **Validation** | express-validator |
-| **DevOps** | Docker + Docker Compose, Render (Backend), Vercel (Frontend) |
-
----
-
-## Features
-
-- [x] JWT-based authentication (register, login, session restore)
-- [x] Role-based access control (Admin vs Sales)
-- [x] Full Lead CRUD (Create, Read, Update, Delete)
-- [x] Paginated lead list with server-side pagination
-- [x] Multi-filter: status, source, free-text search (debounced), sort order
-- [x] All filters work simultaneously and combined
-- [x] Status badges with color coding (New, Contacted, Qualified, Lost)
-- [x] Lead detail modal with formatted fields
-- [x] Create/Edit lead modal with Zod validation
-- [x] Delete confirmation modal (admin only)
-- [x] CSV export with active filters applied (admin only)
-- [x] Skeleton loading states for table rows
-- [x] Empty state component for zero-result views
-- [x] Dark mode toggle with localStorage persistence
-- [x] System dark mode preference detection on first load
-- [x] Responsive design (mobile sidebar, scrollable table)
-- [x] Toast notifications for all user actions
-- [x] Standardized API response format
-- [x] Centralized error handling middleware
-- [x] Docker + Docker Compose setup
+- ✅ **JWT Authentication** - Secure login with token-based sessions
+- ✅ **Role-Based Access Control** - Admin vs Sales permissions
+- ✅ **Full Lead CRUD** - Create, Read, Update, Delete operations
+- ✅ **Advanced Filtering** - Multi-filter support (status, source, search, sort)
+- ✅ **Pagination** - Server-side pagination with customizable limits
+- ✅ **CSV Export** - Download filtered leads (admin only)
+- ✅ **Real-Time UI** - Instant updates with React Query
+- ✅ **Dark Mode** - Theme toggle with persistence
+- ✅ **Responsive Design** - Mobile, tablet, desktop optimized
+- ✅ **Toast Notifications** - User feedback for actions
+- ✅ **Docker Support** - Containerized deployment
+- ✅ **TypeScript** - Full type safety
 
 ---
 
-## Prerequisites
+## 🛠️ Tech Stack
+
+### Frontend
+| Technology | Purpose |
+|-----------|---------|
+| **React 18** | UI library |
+| **Vite** | Build tool |
+| **TypeScript** | Type safety |
+| **Tailwind CSS** | Styling |
+| **React Query** | State management |
+| **Zod** | Validation |
+
+### Backend
+| Technology | Purpose |
+|-----------|---------|
+| **Node.js** | Runtime |
+| **Express.js** | Framework |
+| **MongoDB** | Database |
+| **JWT** | Authentication |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
 
 - **Node.js** v18+
 - **npm** v9+
-- **MongoDB** v6+ (local) OR **Docker** (recommended)
+- **MongoDB** v6+
 
----
+### Local Development
 
-## Local Setup (Without Docker)
-
-### 1. Clone & navigate
+#### 1. Clone Repository
 
 ```bash
 git clone https://github.com/Rishi-Rana01/Fullstack-Dashboard.git
-cd smart-leads-dashboard
+cd Fullstack-Dashboard
 ```
 
-### 2. Backend setup
+#### 2. Backend Setup
 
 ```bash
 cd backend
 npm install
-
-# Copy and configure environment variables
 cp .env.example .env
-# Edit .env — set MONGODB_URI, JWT_SECRET, etc.
+```
 
-# Start development server (hot-reload)
+Edit `.env`:
+```env
+PORT=5000
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/smart-leads
+JWT_SECRET=your-secret-key
+FRONTEND_URL=http://localhost:5173
+```
+
+Start:
+```bash
 npm run dev
 ```
 
-Backend runs on: `http://localhost:5000`
+Backend: **http://localhost:5000**
 
-### 3. Frontend setup
+#### 3. Frontend Setup
 
 ```bash
 cd frontend
 npm install
+cp .env.example .env.local
+```
 
-# Copy and configure environment variables
-cp .env.example .env
-# Edit .env — set VITE_API_URL=http://localhost:5000/api
+Edit `.env.local`:
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-# Start Vite dev server
+Start:
+```bash
 npm run dev
 ```
 
-Frontend runs on: `http://localhost:5173`
+Frontend: **http://localhost:5173**
 
 ---
 
-## Deployment (Production)
+## 🐳 Docker Setup
 
-The application is deployed using modern cloud platforms:
-
-- **Frontend**: [Vercel](https://fullstack-dashboard-six.vercel.app/)
-- **Backend API**: [Render](https://smart-leads-backend-qzbo.onrender.com/health)
-- **Database**: MongoDB Atlas
-
-### Deploying the Backend (Render)
-The backend is configured to deploy automatically to Render using the `render.yaml` configuration.
-1. Connect your GitHub repository to Render.
-2. The `render.yaml` handles the Node environment, build command (`npm ci --include=dev && npm run build`), and start command.
-3. Ensure you set the `MONGODB_URI`, `JWT_SECRET`, and `FRONTEND_URL` environment variables in the Render dashboard.
-
-### Deploying the Frontend (Vercel)
-1. Import the `frontend/` directory into a new Vercel project.
-2. The framework will be auto-detected as Vite.
-3. Set the `VITE_API_URL` environment variable to your backend URL (e.g., `https://smart-leads-backend-qzbo.onrender.com/api`). Note: Make sure it ends in `/api`.
-
----
-
-## Environment Variables
-
-### Backend (`backend/.env`)
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PORT` | Server port | `5000` |
-| `NODE_ENV` | Environment (`development`/`production`) | `development` |
-| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://<user-name>:<password>@<your-cluster>.mongodb.net/<your-db>` |
-| `JWT_SECRET` | Secret key for JWT signing — **use a long random string in prod** | — |
-| `JWT_EXPIRES_IN` | Token expiry duration | `7d` |
-| `FRONTEND_URL` | CORS allowed origin (No trailing slashes) | `http://localhost:5173` |
-
-### Frontend (`frontend/.env`)
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `VITE_API_URL` | Backend API base URL | `http://localhost:5000/api` |
-
----
-
-## API Documentation
-
-### Base URL
-`https://smart-leads-backend-qzbo.onrender.com/api` (Production)
-`http://localhost:5000/api` (Local)
-
-### Response Format
-
-All endpoints return a consistent JSON structure:
-
-```json
-// Success
-{ "success": true, "message": "...", "data": { ... } }
-
-// Error
-{ "success": false, "message": "...", "errors": [...] }
+```bash
+docker-compose up --build
 ```
 
 ---
 
-### Auth Endpoints
-
-#### `POST /auth/register`
-Register a new user account.
-
-**Auth required:** No
-
-**Request Body:**
-```json
-{
-  "name": "Jane Doe",
-  "email": "jane@company.com",
-  "password": "secret123",
-  "role": "sales"
-}
-```
-
-**Response (201):**
-```json
-{
-  "success": true,
-  "message": "Account created successfully.",
-  "data": {
-    "token": "eyJhbGciOiJIUzI1NiIs...",
-    "user": { "_id": "...", "name": "Jane Doe", "email": "jane@company.com", "role": "sales" }
-  }
-}
-```
-
----
-
-#### `POST /auth/login`
-Authenticate and receive a JWT.
-
-**Auth required:** No
-
-**Request Body:**
-```json
-{ "email": "jane@company.com", "password": "secret123" }
-```
-
-**Response (200):** Same structure as register.
-
----
-
-#### `GET /auth/me`
-Get the current authenticated user's profile.
-
-**Auth required:** Bearer token
-
-**Response (200):**
-```json
-{ "success": true, "data": { "_id": "...", "name": "Jane Doe", "role": "sales" } }
-```
-
----
-
-### Lead Endpoints
-
-All lead endpoints require a valid JWT in the `Authorization: Bearer <token>` header.
-
-#### `GET /leads`
-Get paginated leads with optional filters.
-
-**Auth required:** Yes (any role)
-
-**Query Parameters:**
-| Param | Type | Description |
-|-------|------|-------------|
-| `status` | `New\|Contacted\|Qualified\|Lost` | Filter by status |
-| `source` | `Website\|Instagram\|Referral` | Filter by source |
-| `search` | `string` | Search in name and email |
-| `sort` | `latest\|oldest` | Sort by creation date |
-| `page` | `number` | Page number (default: 1) |
-| `limit` | `number` | Results per page (default: 10, max: 50) |
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "data": {
-    "leads": [...],
-    "pagination": {
-      "total": 45, "page": 2, "limit": 10,
-      "totalPages": 5, "hasNextPage": true, "hasPrevPage": true
-    }
-  }
-}
-```
-
----
-
-#### `POST /leads`
-Create a new lead.
-
-**Auth required:** Yes (any role)
-
-**Request Body:**
-```json
-{ "name": "John Smith", "email": "john@example.com", "status": "New", "source": "Website" }
-```
-
-**Response (201):** Created lead object.
-
----
-
-#### `GET /leads/:id`
-Get a single lead by ID.
-
-**Auth required:** Yes (any role)
-
----
-
-#### `PUT /leads/:id`
-Update a lead (partial update supported).
-
-**Auth required:** Yes (admin: any lead; sales: own leads only)
-
----
-
-#### `DELETE /leads/:id`
-Delete a lead.
-
-**Auth required:** Yes (**admin only**)
-
----
-
-#### `GET /leads/export/csv`
-Export leads matching current filters as a CSV file download.
-
-**Auth required:** Yes (**admin only**)
-
-**Query Parameters:** Same as `GET /leads` (excluding `page` and `limit`)
-
-**Response:** CSV file download (`text/csv`)
-
----
-
-## Error Handling
-
-The API uses a centralized error handling middleware (`src/middleware/error.middleware.ts`) to catch and format errors consistently.
-
-### Common Error Responses
-
-**400 Bad Request (Validation Error):**
-```json
-{
-  "success": false,
-  "message": "Validation failed.",
-  "errors": [
-    { "field": "email", "message": "Please enter a valid email address" }
-  ]
-}
-```
-
-**401 Unauthorized (Invalid/Expired Token):**
-```json
-{
-  "success": false,
-  "message": "Session expired. Please log in again."
-}
-```
-
-**404 Not Found:**
-```json
-{
-  "success": false,
-  "message": "Lead not found."
-}
-```
-
-**409 Conflict (Duplicate Key):**
-```json
-{
-  "success": false,
-  "message": "A record with that email already exists."
-}
-```
-
-**500 Internal Server Error:**
-```json
-{
-  "success": false,
-  "message": "An unexpected internal server error occurred."
-}
-```
-
----
-
-## AI-Assisted Troubleshooting
-
-During the deployment to Render, a persistent `ERR_INVALID_CHAR` issue occurred due to an invalid character in the CORS `Access-Control-Allow-Origin` header.
-
-**The Problem:**
-The backend was crashing with `TypeError [ERR_INVALID_CHAR]: Invalid character in header content ["Access-Control-Allow-Origin"]` when making requests from the frontend.
-
-**The Debugging Process (with AI Assistance):**
-1. **Identified the cause:** AI correctly identified that a trailing slash (`/`) or invisible whitespace/newline characters in the `FRONTEND_URL` environment variable were violating HTTP header specifications.
-2. **First Attempt:** Added `.replace(/\/+$/, '')` to strip trailing slashes, but the error persisted because the environment variable contained an invisible newline character (`\n`) from a copy-paste error in the Render dashboard.
-3. **The Fix:** AI instructed to add `.trim()` alongside `.replace()` and added diagnostic logging using `JSON.stringify(FRONTEND_URL)` to reveal hidden characters in the Render logs.
-   ```typescript
-   const FRONTEND_URL = (process.env.FRONTEND_URL ?? 'http://localhost:5173').trim().replace(/\/+$/, '');
-   ```
-4. **Resolution:** The backend was successfully able to parse the origin, allowing cross-origin requests from the Vercel frontend and resolving the issue completely.
-
----
-
-## Folder Structure
-
-```
-smart-leads-dashboard/
-├── backend/src/
-│   ├── config/db.ts              # MongoDB connection
-│   ├── controllers/              # Auth + Lead business logic
-│   ├── middleware/               # JWT auth, RBAC, error handler
-│   ├── models/                   # Mongoose User + Lead models
-│   ├── routes/                   # Express route definitions
-│   ├── types/                    # TypeScript interfaces
-│   ├── utils/                    # JWT, CSV, API response helpers
-│   ├── validators/               # express-validator chains
-│   └── index.ts                  # Express app entry
-└── frontend/src/
-    ├── api/                      # Axios instance + API functions
-    ├── components/ui/            # Reusable UI components
-    ├── components/leads/         # Lead-specific components
-    ├── components/layout/        # Navbar, Sidebar, ProtectedRoute
-    ├── context/AuthContext.tsx   # Auth state management
-    ├── hooks/                    # Custom React hooks
-    ├── pages/                    # Login, Register, Dashboard
-    ├── types/                    # TypeScript interfaces
-    └── utils/csvDownload.ts      # CSV download helper
-```
-
----
-
-## RBAC Permissions
+## 👥 User Roles & Permissions
 
 | Action | Admin | Sales |
 |--------|-------|-------|
@@ -406,6 +136,117 @@ smart-leads-dashboard/
 
 ---
 
-## License
+## 🔌 API Endpoints
 
-MIT
+### Base URLs
+- **Local**: `http://localhost:5000/api`
+- **Production**: `https://smart-leads-backend-qzbo.onrender.com/api`
+
+### Auth
+
+#### POST `/auth/register`
+```bash
+curl -X POST http://localhost:5000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John","email":"john@example.com","password":"pass123","role":"sales"}'
+```
+
+#### POST `/auth/login`
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -d '{"email":"john@example.com","password":"pass123"}'
+```
+
+### Leads
+
+#### GET `/leads` (with filters)
+```bash
+curl "http://localhost:5000/api/leads?status=New&page=1&limit=10" \
+  -H "Authorization: Bearer JWT_TOKEN"
+```
+
+**Query Params:** status, source, search, sort, page, limit
+
+#### POST `/leads`
+```bash
+curl -X POST http://localhost:5000/api/leads \
+  -H "Authorization: Bearer JWT_TOKEN" \
+  -d '{"name":"Jane","email":"jane@example.com","status":"New"}'
+```
+
+#### PUT `/leads/:id`
+```bash
+curl -X PUT http://localhost:5000/api/leads/:id \
+  -H "Authorization: Bearer JWT_TOKEN" \
+  -d '{"status":"Contacted"}'
+```
+
+#### DELETE `/leads/:id` (admin)
+```bash
+curl -X DELETE http://localhost:5000/api/leads/:id \
+  -H "Authorization: Bearer ADMIN_JWT"
+```
+
+---
+
+## 🚀 Deployment
+
+### Backend (Render)
+1. Push to GitHub
+2. Connect to Render
+3. Set env variables
+4. Deploy
+
+### Frontend (Vercel)
+1. Import frontend folder
+2. Set `VITE_API_URL`
+3. Deploy
+
+---
+
+## 📂 Project Structure
+
+```
+smart-leads-dashboard/
+├── backend/src/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   └── index.ts
+└── frontend/src/
+    ├── api/
+    ├── components/
+    ├── context/
+    ├── pages/
+    └── utils/
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repo
+2. Create feature branch: `git checkout -b feature/amazing`
+3. Commit: `git commit -m 'Add feature'`
+4. Push: `git push origin feature/amazing`
+5. Open PR
+
+---
+
+## 📝 License
+
+MIT License
+
+---
+
+## 🔗 Connect & Support
+
+- **GitHub Profile**: [@Rishi-Rana01](https://github.com/Rishi-Rana01)
+- **Report Issues**: [GitHub Issues](https://github.com/Rishi-Rana01/Fullstack-Dashboard/issues)
+- **Email**: rishirana.dev@gmail.com
+
+---
+
+**Made with ❤️ by [Rishi Rana](https://github.com/Rishi-Rana01)**
